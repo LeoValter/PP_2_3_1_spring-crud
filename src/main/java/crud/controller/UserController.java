@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @Controller
 public class UserController {
 
@@ -24,6 +22,11 @@ public class UserController {
         return new User();
     }
 
+    @ModelAttribute(name = "editUser")
+    public User editUser(User oldUser) {
+        return new User(oldUser.getId(), oldUser.getFirstName(), oldUser.getLastName(), oldUser.getAge());
+    }
+
     @GetMapping(value = "/")
     public String showUsers(Model model) {
         model.addAttribute("users", service.getAll());
@@ -31,16 +34,19 @@ public class UserController {
     }
 
     @PostMapping("/adduser")
-    public String addUser(@ModelAttribute User user) {
+    public String addUser(User user) {
         System.out.println(user);
         service.add(user);
         return "redirect:/";
     }
 
     @GetMapping("/edit/{id}")
-    @ResponseBody
-    public User showUpdateForm(@PathVariable("id") int id) {
-        return service.get(id);
+    public Model showUpdateForm(@PathVariable("id") int id, Model model) {
+        System.out.println("Get User /edit/{" + id + "}");
+        model.addAttribute("editUser", service.get(id));
+        User user = (User) model.getAttribute("editUser");
+        System.out.println(user);
+        return model;
     }
 
     @PostMapping("/update")

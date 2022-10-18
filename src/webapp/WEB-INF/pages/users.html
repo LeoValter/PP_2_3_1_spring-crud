@@ -12,18 +12,18 @@
 
 <div class="container my-3">
     <div class="row gy-xxl-1">
-        <form action="#" th:action="@{/adduser}" th:object="${user}" method="post" class="row g-3 form-floating">
+        <form action="/adduser" method="post" class="row g-3 form-floating">
             <div class="col-auto">
-                <input type="text" th:field="*{firstName}" id="firstName" class="form-control" placeholder="First Name">
-                                <label for="firstName" class="visually-hidden">First Name</label>
+                <input type="text" th:field="*{user.firstName}" id="firstName" class="form-control" placeholder="First Name">
+                <label for="firstName" class="visually-hidden"></label>
             </div>
             <div class="col-auto">
-                <input type="text" th:field="*{lastName}" id="lastName" class="form-control" placeholder="Last Name">
-                                <label for="lastName" class="visually-hidden">Last Name</label>
+                <input type="text" th:field="*{user.lastName}" id="lastName" class="form-control" placeholder="Last Name">
+                <label for="lastName" class="visually-hidden"></label>
             </div>
             <div class="col-auto">
-                <input type="text" th:field="*{age}" id="age" class="form-control" placeholder="Age">
-                                <label for="age" class="visually-hidden">Age</label>
+                <input type="text" th:field="*{user.age}" id="age" class="form-control" placeholder="Age">
+                <label for="age" class="visually-hidden"></label>
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mb-3">Add User</button>
@@ -36,7 +36,7 @@
         <table class="table table-bordered border-primary">
             <thead>
             <tr>
-                <th scope="col"># ID</th>
+                <th scope="col">ID</th>
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">Age</th>
@@ -54,54 +54,10 @@
 
                 <!-- Edit Button -->
                 <td>
-                    <button type="button" class="btn btn-primary ml-3 eBtn"
-                            data-toggle="modal" th:data-target="${'#editModal' + user.id}">Edit
-                    </button>
+                    <a class="btn btn-primary ml-3" th:href="@{/edit/{id}(id=${user.id})}" data-toggle="modal" data-target="#editModal">Edit</a>
+                    <!--                    <input th:placeholder="${user.getId()}">-->
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="editModal" th:id="${'editModal' + user.id}" tabindex="-1"
-                         aria-labelledby="editModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel">User edit</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form th:action="@{/update}" th:object="${user}" method="post">
-                                        <div class="form-group">
-                                            <label for="idEdit" class="col-form-label">Id:</label>
-                                            <input type="text" class="form-control" id="idEdit" name="idEd"
-                                                   th:value="${user.id}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="firstNameEdit" class="col-form-label">First Name:</label>
-                                            <input type="text" class="form-control" id="firstNameEdit"
-                                                   name="firstNameEd" th:value="${user.firstName}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="lastNameEdit" class="col-form-label">Last Name:</label>
-                                            <input type="text" class="form-control" id="lastNameEdit" name="lastNameEd"
-                                                   th:value="${user.lastName}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="ageEdit" class="col-form-label">Age:</label>
-                                            <input type="text" class="form-control" id="ageEdit" name="ageEd"
-                                                   th:value="${user.age}">
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save change</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Modal -->
+
 
                 </td>
 
@@ -111,6 +67,51 @@
             </tr>
             </tbody>
         </table>
+
+        <!-- Modal -->
+        <div aria-hidden="true" aria-labelledby="editModalLabel" class="modal fade" id="editModal"
+             tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="#" method="post" th:action="@{/update}" th:object="${editUser}">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">User edit</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="idEdit" class="col-form-label">Id:</label>
+                                <input type="text" class="form-control" id="idEdit"
+                                       th:value="*{id}" name="id">
+                            </div>
+                            <div class="form-group">
+                                <label for="firstNameEdit" class="col-form-label">First Name:</label>
+                                <input th:value="*{firstName}" name="firstName" type="text" class="form-control" id="firstNameEdit">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastNameEdit" class="col-form-label">Last Name:</label>
+                                <input th:value="*{lastName}" name="lastName" type="text" class="form-control" id="lastNameEdit">
+                            </div>
+                            <div class="form-group">
+                                <label for="ageEdit" class="col-form-label">Age:</label>
+                                <input th:value="*{age}" name="age" type="number" class="form-control" id="ageEdit">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">Save
+                                change
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+
     </div>
 </div>
 
@@ -125,10 +126,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-<script type="text/javascript">
-    $(function () {
-        $('#editModal').modal()
-    })
-</script>
+<!--<script type="text/javascript">-->
+<!--    $(function () {-->
+<!--        $('#editModal').modal()-->
+<!--    })-->
+<!--</script>-->
 </body>
 </html>
