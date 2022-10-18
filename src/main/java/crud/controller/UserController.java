@@ -22,11 +22,6 @@ public class UserController {
         return new User();
     }
 
-    @ModelAttribute(name = "editUser")
-    public User editUser(User oldUser) {
-        return new User(oldUser.getId(), oldUser.getFirstName(), oldUser.getLastName(), oldUser.getAge());
-    }
-
     @GetMapping(value = "/")
     public String showUsers(Model model) {
         model.addAttribute("users", service.getAll());
@@ -38,15 +33,6 @@ public class UserController {
         System.out.println(user);
         service.add(user);
         return "redirect:/";
-    }
-
-    @GetMapping("/edit/{id}")
-    public Model showUpdateForm(@PathVariable("id") int id, Model model) {
-        System.out.println("Get User /edit/{" + id + "}");
-        model.addAttribute("editUser", service.get(id));
-        User user = (User) model.getAttribute("editUser");
-        System.out.println(user);
-        return model;
     }
 
     @PostMapping("/update")

@@ -54,10 +54,51 @@
 
                 <!-- Edit Button -->
                 <td>
-                    <a class="btn btn-primary ml-3" th:href="@{/edit/{id}(id=${user.id})}" data-toggle="modal" data-target="#editModal">Edit</a>
-                    <!--                    <input th:placeholder="${user.getId()}">-->
+                    <a class="btn btn-primary ml-3" data-toggle="modal" th:data-target="${'#editModal' + user.id}">Edit</a>
 
-
+                    <!-- Modal -->
+                    <div aria-hidden="true" aria-labelledby="editModalLabel" class="modal fade" th:id="${'editModal' + user.id}"
+                         tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="#" method="post" th:action="@{/update}" th:object="${user}">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel">User edit</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="idEdit" class="col-form-label"></label>
+                                            <input type="text" class="form-control" id="idEdit"
+                                                   th:value="*{id}" name="id" hidden="hidden">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="firstNameEdit" class="col-form-label">First Name:</label>
+                                            <input th:value="*{firstName}" name="firstName" type="text" class="form-control" id="firstNameEdit">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lastNameEdit" class="col-form-label">Last Name:</label>
+                                            <input th:value="*{lastName}" name="lastName" type="text" class="form-control" id="lastNameEdit">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ageEdit" class="col-form-label">Age:</label>
+                                            <input th:value="*{age}" name="age" type="number" class="form-control" id="ageEdit">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Save
+                                            change
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
 
                 </td>
 
@@ -67,50 +108,6 @@
             </tr>
             </tbody>
         </table>
-
-        <!-- Modal -->
-        <div aria-hidden="true" aria-labelledby="editModalLabel" class="modal fade" id="editModal"
-             tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="#" method="post" th:action="@{/update}" th:object="${editUser}">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editModalLabel">User edit</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="idEdit" class="col-form-label">Id:</label>
-                                <input type="text" class="form-control" id="idEdit"
-                                       th:value="*{id}" name="id">
-                            </div>
-                            <div class="form-group">
-                                <label for="firstNameEdit" class="col-form-label">First Name:</label>
-                                <input th:value="*{firstName}" name="firstName" type="text" class="form-control" id="firstNameEdit">
-                            </div>
-                            <div class="form-group">
-                                <label for="lastNameEdit" class="col-form-label">Last Name:</label>
-                                <input th:value="*{lastName}" name="lastName" type="text" class="form-control" id="lastNameEdit">
-                            </div>
-                            <div class="form-group">
-                                <label for="ageEdit" class="col-form-label">Age:</label>
-                                <input th:value="*{age}" name="age" type="number" class="form-control" id="ageEdit">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
-                            </button>
-                            <button type="submit" class="btn btn-primary">Save
-                                change
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- End Modal -->
 
     </div>
 </div>
@@ -126,10 +123,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-<!--<script type="text/javascript">-->
-<!--    $(function () {-->
-<!--        $('#editModal').modal()-->
-<!--    })-->
-<!--</script>-->
 </body>
 </html>
