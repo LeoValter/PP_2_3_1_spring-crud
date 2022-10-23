@@ -36,10 +36,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getById(Integer id) {
-//        TypedQuery<User> query = entityManager
-//                .createQuery("SELECT u FROM User u WHERE u.id = :id", User.class)
-//                .setParameter("id", id);
-//        return query.setMaxResults(1).getSingleResult();
         return entityManager.find(User.class, id);
     }
 
